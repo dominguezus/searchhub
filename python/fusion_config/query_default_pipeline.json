@@ -110,7 +110,7 @@
           "missing": false
         },
         {
-          "field": "author_facet",
+          "field": "{!ex=auth}author_facet",
           "minCount": 1,
           "missing": false
         },
