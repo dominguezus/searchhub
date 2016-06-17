@@ -27,7 +27,7 @@
       "mbox": "mahout-user",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     },
     {
@@ -36,7 +36,7 @@
       "mbox": "mahout-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     }
   ],
@@ -46,7 +46,7 @@
     "url": "https://issues.apache.org/jira/browse/MAHOUT",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
   },
   "githubs": [
@@ -58,17 +58,6 @@
       "github_pass": "GITHUB_KEY",
       "schedule": {
         "repeatUnit": "DAY",
-        "interval": 1
-      }
-    }
-  ],
-  "wikis": [
-    {
-      "name": "mahout-wiki",
-      "label": "Mahout Wiki",
-      "url": "http://wiki.apache.org/mahout/",
-      "schedule": {
-        "repeatUnit": "WEEK",
         "interval": 1
       }
     }

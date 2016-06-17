@@ -10,6 +10,12 @@ class Backend(object):
   def __init__(self):
     pass
 
+  def toggle_system_metrics(self, enabled=True):
+    raise NotImplementedError()
+
+  def set_log_level(self, logLevel="ERROR"):
+    raise NotImplementedError()
+
   def send_signal(self, collection_id, payload):
     """
     Send a signal
@@ -97,6 +103,12 @@ class Backend(object):
   def add_search_component(self, collection_name, add_search_component_json):
     raise NotImplementedError()
 
+
+  def stop_datasource(self, id, abort=False):
+    raise NotImplementedError()
+
+  def stop_datasources(self):
+    raise NotImplementedError()
 
   def update_datasource(self, id, **config):
     """

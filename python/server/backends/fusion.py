@@ -58,13 +58,28 @@ class FusionBackend(Backend):
         app.config.get("FUSION_ADMIN_USERNAME"),
         app.config.get("FUSION_ADMIN_PASSWORD")
       )
-    if app.config.get("FUSION_APP_USERNAME"):
+    if app.config.get("FUSION_APP_USER"):
       self.app_session = FusionSession(
         app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-        app.config.get("FUSION_APP_USERNAME"),  # TODO change to another user
+        app.config.get("FUSION_APP_USER"),  # TODO change to another user
         app.config.get("FUSION_APP_PASSWORD"),
         lazy=True
       )
+
+  def toggle_system_metrics(self, enabled=True):
+    print "Setting System Metrics indexing to {0}".format(enabled)
+    resp = self.admin_session.put("apollo/configurations/com.lucidworks.apollo.metrics.enabled", data=json.dumps(enabled))
+    if resp.status_code != 204:
+      print "Unable to set system metrics collection to {0}".format(enabled)
+      print resp
+
+
+  def set_log_level(self, log_level="WARN"):
+    print "Setting Log Level to {0}".format(log_level)
+    resp = self.admin_session.put("apollo/configurations/com.lucidworks.apollo.log.level", data=json.dumps(log_level))
+    if resp.status_code != 204:
+      print "Unable to set log_level collection to {0}".format(log_level)
+      print resp
 
   def add_field(self, collection_name, name, type="string", required=False, multivalued=False, indexed=True,
                 stored=True, defaultVal=None, copyDests=None):
@@ -520,6 +535,18 @@ class FusionBackend(Backend):
     else:
       raise Exception("Could not start Datasource %s" % (id))
 
+  #Stop all datasources
+  def stop_datasources(self):
+    #get a list of all the datasources
+    resp = self.admin_session.get("apollo/connectors/datasources")
+    if resp.status_code == 200:
+      json = resp.json()
+      for ds in json:
+        print "Stopping {0}".format(ds["id"])
+        self.stop_datasource(ds["id"])
+    else:
+        raise Exception("Unable to retrieve datasource list")
+
   def stop_datasource(self, id, abort=False):
     datasource = self.get_datasource(id)
     if datasource is not None:
@@ -544,7 +571,7 @@ def new_admin_session():
 def new_user_session():
   return _new_session(
     app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-    app.config.get("FUSION_APP_USERNAME"),
+    app.config.get("FUSION_APP_USER"),
     app.config.get("FUSION_APP_PASSWORD")
   )
 
