@@ -41,6 +41,12 @@
   @include label-style($secondary-color, isitlight($secondary-color));
 }
 
+.search-box{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  width: 80%;
+}
+
 .sort-button svg.iconic-sm {
   height: 16px;
   width: 16px;
