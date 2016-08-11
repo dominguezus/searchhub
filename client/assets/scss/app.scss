@@ -4,13 +4,11 @@
 @import "../components/components";
 @import "../components/shub-components";
 
-
 a {
   color: #16a0b7;
   line-height: inherit;
   text-decoration: none;
 }
-
 
 .header-container {
   max-height: 110px;
@@ -24,19 +22,26 @@ a {
   // transition-timing-function: cubic-bezier(.76, -.245, .24, 1.245);
 }
 
-.search-box-outer{
+.right {
+  display: block;
+  white-space: nowrap;
+  overflow: visible;
+  width: 100%;
+}
+
+.search-box-outer {
   flex: 1;
 }
 
-.mail-body > span{
+.mail-body > span {
   font-family: monospace;
   white-space: pre;
 }
 
-.main-view{
+.main-view {
 }
 
-.search-label{
+.search-label {
   margin-bottom: 0;
 }
 
@@ -48,12 +53,12 @@ a {
   }
 }
 
-.label.secondary{
+.label.secondary {
   @extend %label;
   @include label-style($secondary-color, isitlight($secondary-color));
 }
 
-.search-box{
+.search-box {
   padding-top: 15px;
   padding-bottom: 15px;
   width: 80%;
@@ -65,41 +70,40 @@ a {
   width: 16px;
 }
 
-.parentLink{
+.parentLink {
   font-size: small;
 }
 
 .navLogo {
-    flex: 1 1 0;
-    display:flex;
-    cursor: pointer;
+  flex: 1 1 0;
+  display: flex;
+  cursor: pointer;
+  margin: auto;
+  svg {
+    //@include simpleTransition(opacity,0.15s,ease-in-out);
+    height: 30px;
+    width: 30px;
     margin: auto;
-    svg {
-      //@include simpleTransition(opacity,0.15s,ease-in-out);
-      height: 30px;
-      width: 30px;
-      margin:auto;
-      //fill: #0bbdd6;
-    }
-
+    //fill: #0bbdd6;
   }
 
-.card-section{
-  display:flex;
-  justify-content:stretch-between;
+}
+
+.card-section {
+  display: flex;
+  justify-content: stretch-between;
   padding-bottom: 0;
   padding-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
 }
 
-.card-section > select{
+.card-section > select {
   margin-left: 20px;
   width: 150px;
   position: relative;
   top: -10px;
 }
-
 
 blockquote.twitter-tweet {
   display: inline-block;
@@ -135,7 +139,7 @@ blockquote.twitter-tweet a:focus {
   text-decoration: underline;
 }
 
-.footer{
+.footer {
   background-color: #0d1834;
   color: #e7e7e7;
   //height: 25px;
