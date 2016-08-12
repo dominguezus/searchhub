@@ -36,9 +36,16 @@ def setup_field_types(backend, collection_id):
     print ("Creating Field Type for %s" % file)
     backend.add_field_type(collection_id, json.load(open(join("./fusion_config", file))))
 
+def setup_commit_times(backend, collection_id, time_in_ms=10*60*1000):
+  data = {
+    "updateHandler.autoCommit.maxTime": time_in_ms, #10 minutes by default
+  }
+
+  backend.set_property(collection_id, data)
+
 # Setup an official schema for things we know we are going to have in the data
 def setup_find_fields(backend, collection_id):
-  backend.add_field(collection_id, "publishedOnDate", type="date", required=True)
+  backend.add_field(collection_id, "publishedOnDate", type="tdate", required=True)
   backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True)
   backend.add_field(collection_id, "content", type="text_en")
   backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
@@ -74,6 +81,12 @@ def setup_pipelines(backend):
       backend.create_pipeline(json.load(open(join("./fusion_config", file))), pipe_type="query-pipelines")
     else:
       backend.create_pipeline(json.load(open(join("./fusion_config", file))))
+
+def setup_batch_jobs(backend):
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_job.json")]
+  for file in job_files:
+    print ("Creating Batch Job for %s" % file)
+    backend.create_batch_job(json.load(open(join("./fusion_config", file))))
 
 # Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
@@ -140,6 +153,7 @@ backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
+lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")
 
 # Create our main application user
 username = app.config.get("FUSION_APP_USER", "lucidfind")
@@ -157,6 +171,24 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/query-pipelines/lucidfind-default/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/lucidfind-recommendations/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/cf-similar-items-rec/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/cf-similar-items-batch-rec/collections/{0}/select".format(lucidfind_batch_recs_collection_id)
       },
       {
         "methods": [
@@ -189,12 +221,22 @@ if status == False:
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
   # Create the "lucidfind" collection
-  status = backend.create_collection(lucidfind_collection_id, enable_signals=True)
+  solr_params = {"replicationFactor":2,"numShards":1}
+  status = backend.create_collection(lucidfind_collection_id, enable_signals=True, solr_params=solr_params, default_commit_within=60*10*1000)
   if status == False:
     exit(1)
+  # Due to a bug in Solr around suggesters, let's try to remove the suggester first
+  #backend.remove_request_handler(lucidfind_collection_id, "/suggest")
+  #backend.remove_search_component(lucidfind_collection_id, "suggest")
   setup_field_types(backend, lucidfind_collection_id)
   setup_find_fields(backend, lucidfind_collection_id)
   setup_request_handlers(backend, lucidfind_collection_id)
+  setup_commit_times(backend, lucidfind_collection_id)
+  setup_commit_times(backend, "logs", 5*60*1000)
+  setup_commit_times(backend, "lucidfind_logs", 5*60*1000)
+  status = backend.create_collection("lucidfind_thread_recs")
+  if status == False:
+    exit(1)
 
 
 #create the pipelines
@@ -210,6 +252,9 @@ if cmd_args.create_taxonomy or create_all:
 if cmd_args.create_projects or create_all:
   print("Creating Projects")
   setup_projects(backend)
+
+if cmd_args.create_batch_jobs or create_all:
+  setup_batch_jobs(backend)
 
 #create the schedules
 if cmd_args.create_schedules or create_all:

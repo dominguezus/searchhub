@@ -2,14 +2,21 @@
   'use strict';
   angular
     .module('searchHub.controllers.home', ['searchHub.services', 'lucidworksView.services', 'angucomplete-alt', 'angular-humanize'])
+      .config(Config)
     .controller('HomeController', HomeController);
 
+
+  function Config(OrwellProvider) {
+    'ngInject';
+    OrwellProvider.createObservable('perDocument', {});
+  }
 
   function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log) {
 
     'ngInject';
     var hc = this; //eslint-disable-line
     var resultsObservable;
+    var perDocumentObservable;
     var query;
     var sorting;
 
@@ -31,6 +38,8 @@
       hc.status = 'loading';
       hc.lastQuery = '';
       hc.grouped = false;
+      hc.perDocument = false;
+      hc.showRecommendations = false;
       query = URLService.getQueryFromUrl();
       console.log(QueryService.getQueryObject());
 
@@ -50,6 +59,20 @@
           rspSort = data.responseHeader.params.sort;
         }
         getSortFromQuery(query, rspSort);
+
+      });
+      perDocumentObservable = Orwell.getObservable('perDocument');
+      perDocumentObservable.addObserver(function(data){
+        $log.info("HC perD", data);
+        if (data.docId){
+          hc.perDocument = true;
+          hc.showFacets = false;
+          hc.showRecommendations = true;
+        } else {
+          hc.perDocument = false;
+          hc.showFacets = true;
+          hc.showRecommendations = false;
+        }
 
       });
 
@@ -106,8 +129,6 @@
 
     function getSortFromQuery(query, rspSort){
       //first check to see if sorting is in the response object
-      console.log("gsfq");
-      console.log(rspSort);
       if (rspSort) {
         hc.sort = rspSort.replace(" desc", "").trim();
       } else {
@@ -119,14 +140,10 @@
           hc.sort = "score";
         }
       }
-      console.log("sort: " + hc.sort + "::");
     }
 
     function onChangeSort(){
-      console.log("onChangeSort");
-      console.log(hc.sort);
       var query = QueryService.getQueryObject();
-      console.log(query.sort);
       query.sort = hc.sort + " desc";
       QueryService.setQuery(query);
     }
@@ -144,7 +161,6 @@
       }
       else if(_.has(data, 'grouped')){
         hc.lastQuery = data.responseHeader.params.q;
-        $log.debug(data.grouped, 'grouppeeeddd');
         var numFoundArray = [];
         _.each(data.grouped, function(group){
           numFoundArray.push(group.matches);

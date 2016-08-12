@@ -24,6 +24,16 @@
       }
     },
     {
+      "name": "revolution-website",
+      "label":"Lucene Revolution Website",
+      "pipeline":"lw-com-website-default",
+      "url":"https://www.lucenerevolution.org",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    },
+    {
       "name": "lucidworks-docs-website",
       "label":"lucidworks.com Docs Website",
       "pipeline":"lw-docs-default",
@@ -34,10 +44,10 @@
       }
     },
     {
-      "name": "lucidworks-knowldege-base-website",
+      "name": "lucidworks-knowledge-base-website",
       "label":"lucidworks.com KB Website",
       "pipeline":"lw-com-website-default",
-      "url":"http://support.lucidworks.com/hc",
+      "url":"https://support.lucidworks.com/hc",
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 2
