@@ -1,0 +1,25 @@
+{
+  "name": "stack-overflow",
+  "description": "Stack Overflow topics related to our favorite projects",
+  "label": "Stack Overflow",
+  "query_pipeline": "lucidfind-default",
+  "stack_pipeline": "stack-overflow-default",
+  "schedule": {
+    "repeatUnit": "DAY",
+    "interval": 1
+  },
+  "excludes": [".*users.*", ".*login.*", ".*sort=frequent.*", ".*sort=votes.*", ".*sort=active.*", ".*sort=features.*"],
+  "includes": [".*questions.*"],
+  "stacks": [
+    {
+      "name": "solr-stack-overflow",
+      "label": "Solr Stack Overflow",
+      "tag": "solr"
+    },
+    {
+      "name": "lucene-stack-overflow",
+      "label": "Lucene Stack Overflow",
+      "tag": "lucene"
+    }
+  ]
+}
