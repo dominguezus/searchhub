@@ -51,7 +51,7 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
             "fetchDelayMSPerHost": True,
             "indexCrawlDBToSolr": False,
             "fetchThreads": 1,
-            "restrictToTree": True,
+            "restrictToTree": False,
             "retainOutlinks": True,
             "f.defaultCharSet": "UTF-8",
             "emitThreads": 1,

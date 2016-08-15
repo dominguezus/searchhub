@@ -8,8 +8,22 @@
     "repeatUnit": "DAY",
     "interval": 1
   },
-  "excludes": [".*users.*", ".*login.*", ".*sort=frequent.*", ".*sort=votes.*", ".*sort=active.*", ".*sort=features.*"],
-  "includes": [".*questions.*"],
+  "excludes": [
+        ".*users.*",
+        ".*login.*",
+        ".*sort=frequent.*",
+        ".*sort=votes.*",
+        ".*sort=active.*",
+        ".*sort=features.*",
+        ".*jobs.*",
+        ".*documentation.*",
+        ".*tags.*",
+        ".*badges.*",
+        ".*questions$"
+      ],
+  "includes": [
+        ".*questions/(\\d+|tagged)/.*"
+      ],
   "stacks": [
     {
       "name": "solr-stack-overflow",
