@@ -42,8 +42,8 @@ controller: HomeController as hc
     <div class="grid-block medium" >
       <div class="grid-content">
         <a name="topOfMainContent"></a>
-        <div ng-controller='myCtrl'>
-          <nvd3 options='options' data='data'></nvd3>
+        <div>
+          <nvd3 options='hc.d3options' data='hc.d3data'></nvd3>
         </div>
         <div class="card" ng-switch="hc.status" ng-if="!hc.perDocument">
           <div class="card-section center card-normal" ng-switch-when="normal">

@@ -11,7 +11,7 @@
     OrwellProvider.createObservable('perDocument', {});
   }
 
-  function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log) {
+  function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log, $scope) {
 
     'ngInject';
     var hc = this; //eslint-disable-line
@@ -82,7 +82,7 @@
       $timeout(function(){
         URLService.setQuery(query);
       });
-      $scope.options = {
+      hc.d3options = {
         chart: {
           type: 'discreteBarChart',
           height: 450,
@@ -112,7 +112,7 @@
           }
         }
       };
-      $scope.data = [{
+      hc.d3data = [{
         key: "Cumulative Return",
         values: [
           {"label": "A", "value": -29.765957771107},
