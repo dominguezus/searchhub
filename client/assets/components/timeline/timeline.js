@@ -20,57 +20,10 @@
       return directive;
     };
 
-  function populate_timeline(){
-    vm.d3options = {
-      chart: {
-        type: 'historicalBarChart',
-        height:300,
-        margin: {
-          top:20,
-          right:20,
-          bottom:65,
-          left:50
-        },
-        x: function(d) {return d[0];},
-        y: function(d) {return d[1];},
-        showValues: true,
-        duration: 100,
-        xAxis: {
-          axisLabel: 'X Axis',
-          tickFormat: function(d) {
-            return d3.time.format('%x')(new Date(d))
-          },
-          showMaxMin: true
-        },
-        yAxis: {
-          axisLabel: "Y Axis",
-          tickFormat: function(d) {
-            return d3.format('.1f')(d);
-          }
-        },
-        zoom: {
-          enabled: true,
-          scaleExtent: [1,10],
-          usefixedDomain:false, 
-          useNiceScale: false,
-          horizontalOff: false,
-          verticalOff: true,
-          unzoomEventType: 'dblclick.zoom'
-        }
-      }
-    };
-    vm.d3data = [
-      {
-        "values" : [vm.data_vals]
-      }
-    ];
-  }
-
 
   function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope) {
     'ngInject';
     var vm = this;
-    debugger;
     activate();
 
     ////////
@@ -82,6 +35,8 @@
         var queryObject = QueryService.getQueryObject();
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
         queryObject["uuid"] = IDService.generateUUID();
+        
+        // Add logic here to use the published on date if not the actual date and vice versa
         console.log("These are the facets range counts!");
         console.log(data.facet_counts.facet_ranges.date.counts);
         vm.timeline_data = data.facet_counts.facet_ranges.date.counts
@@ -104,11 +59,55 @@
         }
         console.log(vm.timeline_data);
         console.log(vm.data_vals);
+        populate_timeline(vm.data_vals);
       });
 
-      debugger;
-      populate_timeline();
-
+      function populate_timeline(data_info){
+        vm.d3options = {
+          chart: {
+            type: 'historicalBarChart',
+            height:300,
+            margin: {
+              top:20,
+              right:20,
+              bottom:65,
+              left:50
+            },
+            x: function(d) {return d[0];},
+            y: function(d) {return d[1];},
+            showValues: true,
+            duration: 100,
+            xAxis: {
+              axisLabel: 'X Axis',
+              tickFormat: function(d) {
+                return d3.time.format('%x')(new Date(d))
+              },
+              showMaxMin: true
+            },
+            yAxis: {
+              axisLabel: "Y Axis",
+              tickFormat: function(d) {
+                return d3.format('.1f')(d);
+              }
+            },
+            zoom: {
+              enabled: true,
+              scaleExtent: [1,10],
+              usefixedDomain:false, 
+              useNiceScale: false,
+              horizontalOff: false,
+              verticalOff: true,
+              unzoomEventType: 'dblclick.zoom'
+            }
+          }
+        };
+        vm.d3data = [
+          {
+            "values" : data_info
+            //"values" : [ [ 100 , 100 ], [ 200 , 200 ], [ 300 , 300 ] ]
+          }
+        ];
+      }
       // vm.d3options = {
       //     chart: {
       //       type: 'discreteBarChart',

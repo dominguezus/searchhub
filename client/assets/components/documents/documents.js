@@ -40,6 +40,7 @@
     function activate() {
       var resultsObservable = Orwell.getObservable('queryResults');
       resultsObservable.addObserver(function (data) {
+        console.log(data);
         //Every time a query is fired and results come back, this section gets called
         var queryObject = QueryService.getQueryObject();
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
