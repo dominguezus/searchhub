@@ -37,9 +37,10 @@
         queryObject["uuid"] = IDService.generateUUID();
         
         // Add logic here to use the published on date if not the actual date and vice versa
+        console.log(data);
         console.log("These are the facets range counts!");
-        console.log(data.facet_counts.facet_ranges.date.counts);
-        vm.timeline_data = data.facet_counts.facet_ranges.date.counts
+        console.log(data.facet_counts.facet_ranges.publishedOnDate.counts);
+        vm.timeline_data = data.facet_counts.facet_ranges.publishedOnDate.counts
         console.log("Date Conversion Time!");
         
         var num_dates = vm.timeline_data.length;
@@ -49,45 +50,53 @@
 
         for (var i = 0; i <= num_dates/2; i+=2) {
           var date = new Date(vm.timeline_data[i]);
-          console.log(date);
+          // console.log(date);
           var milliseconds = date.getTime();
           vm.timeline_data[i] = milliseconds
-          console.log(milliseconds);
-          console.log("Got the time in ms");
+          // console.log(milliseconds);
+          // console.log("Got the time in ms");
           var sub_array = [milliseconds, vm.timeline_data[i + 1]];
           vm.data_vals.push(sub_array);
         }
-        console.log(vm.timeline_data);
-        console.log(vm.data_vals);
+        // console.log(vm.timeline_data);
+        // console.log(vm.data_vals);
         populate_timeline(vm.data_vals);
       });
 
       function populate_timeline(data_info){
+        var chart_height = 300;
         vm.d3options = {
           chart: {
             type: 'historicalBarChart',
-            height:300,
+            height: chart_height,
             margin: {
-              top:20,
-              right:20,
-              bottom:65,
-              left:50
+              top:0.04*chart_height,
+              right:0.20*chart_height,
+              bottom:0.20*chart_height,
+              left:0.20*chart_height
             },
             x: function(d) {return d[0];},
             y: function(d) {return d[1];},
             showValues: true,
             duration: 100,
             xAxis: {
-              axisLabel: 'X Axis',
+              axisLabel: 'Date',
               tickFormat: function(d) {
                 return d3.time.format('%x')(new Date(d))
               },
-              showMaxMin: true
+              rotateLabels:30,
+              showMaxMin: true,
             },
             yAxis: {
-              axisLabel: "Y Axis",
+              axisLabel: "Event Count",
+              axisLabelDistance: -10,
               tickFormat: function(d) {
                 return d3.format('.1f')(d);
+              }
+            },
+            tooltip: {
+              keyFormatter: function(d) {
+                  return d3.time.format('%x')(new Date(d));
               }
             },
             zoom: {
@@ -103,54 +112,13 @@
         };
         vm.d3data = [
           {
+            "key" : "Quantity",
+            "bar" : true, 
             "values" : data_info
             //"values" : [ [ 100 , 100 ], [ 200 , 200 ], [ 300 , 300 ] ]
           }
         ];
       }
-      // vm.d3options = {
-      //     chart: {
-      //       type: 'discreteBarChart',
-      //       height: 100,
-      //       margin: {
-      //         top: 20,
-      //         right: 20,
-      //         bottom: 60,
-      //         left: 55
-      //       },
-      //       x: function (d) {
-      //         return d.label;
-      //       },
-      //       y: function (d) {
-      //         return d.value;
-      //       },
-      //       showValues: true,
-      //       valueFormat: function (d) {
-      //         return d3.format(',.4f')(d);
-      //       },
-      //       transitionDuration: 500,
-      //       xAxis: {
-      //         axisLabel: 'X Axis'
-      //       },
-      //       yAxis: {
-      //         axisLabel: 'Y Axis',
-      //         axisLabelDistance: 30
-      //       }
-      //     }
-      // };
-      // vm.d3data = [{
-      //   key: "Cumulative Return",
-      //   values: [
-      //     {"label": "A", "value": -29.765957771107},
-      //     {"label": "B", "value": 0},
-      //     {"label": "C", "value": 32.807804682612},
-      //     {"label": "D", "value": 196.45946739256},
-      //     {"label": "E", "value": 0.19434030906893},
-      //     {"label": "F", "value": -98.079782601442},
-      //     {"label": "G", "value": -13.925743130903},
-      //     {"label": "H", "value": -5.1387322875705}
-      //   ]
-      // }];
     }
   }
 })();
