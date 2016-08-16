@@ -1,0 +1,129 @@
+diff --git a/bower.json b/bower.json
+index 1173fec..a0ad0c5 100644
+--- a/bower.json
++++ b/bower.json
+@@ -27,7 +27,6 @@
+     "ng-orwell": "~1.1.2",
+     "angucomplete-alt": "~2.2.0",
+     "angular-sanitize": "~1.5.7",
+-    "angular-nvd3": "1.0.8",
+     "angular-cookies": "~1.5.7",
+     "angular-rison": "~0.0.13",
+     "angularjs-humanize": "master",
+diff --git a/client/assets/js/app.js b/client/assets/js/app.js
+index 0da910d..d5dad44 100644
+--- a/client/assets/js/app.js
++++ b/client/assets/js/app.js
+@@ -7,7 +7,6 @@
+       'ngAnimate',
+       'ngSanitize',
+       'ngCookies',
+-      'nvd3',
+ 
+       // Foundation
+       'foundation',
+diff --git a/client/assets/js/controllers/HomeController.js b/client/assets/js/controllers/HomeController.js
+index c85198e..0502eba 100644
+--- a/client/assets/js/controllers/HomeController.js
++++ b/client/assets/js/controllers/HomeController.js
+@@ -11,7 +11,7 @@
+     OrwellProvider.createObservable('perDocument', {});
+   }
+ 
+-  function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log, $scope) {
++  function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log) {
+ 
+     'ngInject';
+     var hc = this; //eslint-disable-line
+@@ -82,49 +82,6 @@
+       $timeout(function(){
+         URLService.setQuery(query);
+       });
+-      hc.d3options = {
+-        chart: {
+-          type: 'discreteBarChart',
+-          height: 450,
+-          margin: {
+-            top: 20,
+-            right: 20,
+-            bottom: 60,
+-            left: 55
+-          },
+-          x: function (d) {
+-            return d.label;
+-          },
+-          y: function (d) {
+-            return d.value;
+-          },
+-          showValues: true,
+-          valueFormat: function (d) {
+-            return d3.format(',.4f')(d);
+-          },
+-          transitionDuration: 500,
+-          xAxis: {
+-            axisLabel: 'X Axis'
+-          },
+-          yAxis: {
+-            axisLabel: 'Y Axis',
+-            axisLabelDistance: 30
+-          }
+-        }
+-      };
+-      hc.d3data = [{
+-        key: "Cumulative Return",
+-        values: [
+-          {"label": "A", "value": -29.765957771107},
+-          {"label": "B", "value": 0},
+-          {"label": "C", "value": 32.807804682612},
+-          {"label": "D", "value": 196.45946739256},
+-          {"label": "E", "value": 0.19434030906893},
+-          {"label": "F", "value": -98.079782601442},
+-          {"label": "G", "value": -13.925743130903},
+-          {"label": "H", "value": -5.1387322875705}
+-        ]
+-      }];
+     }
+ 
+     function getSortFromQuery(query, rspSort){
+diff --git a/client/templates/home.html b/client/templates/home.html
+index 4eadc59..38b4557 100644
+--- a/client/templates/home.html
++++ b/client/templates/home.html
+@@ -42,9 +42,6 @@ controller: HomeController as hc
+     <div class="grid-block medium" >
+       <div class="grid-content">
+         <a name="topOfMainContent"></a>
+-        <div>
+-          <nvd3 options='hc.d3options' data='hc.d3data'></nvd3>
+-        </div>
+         <div class="card" ng-switch="hc.status" ng-if="!hc.perDocument">
+           <div class="card-section center card-normal" ng-switch-when="normal">
+             Showing Results for "{{hc.lastQuery}}". {{hc.numFoundFormatted}} results found.
+diff --git a/gulpfile.js b/gulpfile.js
+index 774e743..becb501 100644
+--- a/gulpfile.js
++++ b/gulpfile.js
+@@ -73,10 +73,7 @@ global.paths = {
+     '!bower_components/foundation-apps/js/angular/app.js',
+     'bower_components/ng-orwell/Orwell.js',
+     'bower_components/humanize/humanize.js',
+-    'bower_components/angularjs-humanize/src/angular-humanize.js',
+-    'bower_components/angular-nvd3/dist/angular-nvd3.js',
+-    'bower_components/d3/d3.min.js',
+-    'bower_components/nvd3/build/nv.d3.min.js'
++    'bower_components/angularjs-humanize/src/angular-humanize.js'
+   ],
+   // These files are for your app's JavaScript
+   appJS: [
+diff --git a/package.json b/package.json
+index a5177d5..0dc3bbe 100644
+--- a/package.json
++++ b/package.json
+@@ -63,7 +63,6 @@
+     "ng-describe": "^1.6.0",
+     "angular-sanitize": "1.5.7",
+     "angular-cookies": "1.5.7",
+-    "angular-nvd3": "1.0.8",
+     "require-dir": "^0.3.0",
+     "rimraf": "^2.4.1",
+     "run-sequence": "^1.1.1",
