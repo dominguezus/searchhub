@@ -24,7 +24,7 @@
 
   }
 
-  function Controller($sce, SnowplowService, PerDocumentService, $filter, Orwell, $log) {
+  function Controller($sce, SnowplowService, PerDocumentService, DocumentDisplayHelperService, $log) {
     'ngInject';
     var vm = this;
     activate();
@@ -47,8 +47,7 @@
       doc['subject'] = $sce.trustAsHtml(doc['subject']);
       //$log.info(doc['subject']);
       doc['id'] = $sce.trustAsHtml(doc['id']);
-      doc.length_lFormatted = $filter('humanizeFilesize')(doc.length_l);
-      doc.lastModified_dtFormatted = $filter('date')(doc.lastModified_dt);
+      doc = DocumentDisplayHelperService.processDocument(doc);
       return doc;
     }
   }

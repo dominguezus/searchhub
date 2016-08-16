@@ -24,7 +24,9 @@
 
   }
 
-  function Controller(SnowplowService, PerDocumentService, $log) {
+  var STACK_HEADER = new RegExp("current")
+
+  function Controller(SnowplowService, PerDocumentService, DocumentDisplayHelperService, $log) {
     'ngInject';
     var vm = this;
     activate();
@@ -41,11 +43,8 @@
     }
 
     function processDocument(doc) {
-      if (doc.content){
-        doc.content = doc.content.trim();
-      } else if (doc.content_txt){
-        doc.content_txt = doc.content_txt.trim();
-      }
+      doc = DocumentDisplayHelperService.processDocument(doc);
+      doc["body"] = doc[field].replace(STACK_HEADER, "");
       return doc;
     }
 
