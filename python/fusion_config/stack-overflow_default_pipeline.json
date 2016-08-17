@@ -2,6 +2,13 @@
   "id": "stack-overflow-default",
   "stages": [
     {
+      "type": "javascript-index",
+      "id": "z7uf6w29nfcn5ewmi",
+      "script": "function(doc){\n  var id = doc.getId();\n  if (id != null && id.indexOf(\"questions/tagged\") != -1){\n    print(\"Dropping \" + id);\n    return null;\n  }\n  return doc;\n}",
+      "skip": false,
+      "label": "javascript-index"
+    },
+    {
       "type": "tika-parser",
       "id": "214af411-448a-4318-8b3c-8a85a19a5970",
       "includeImages": false,
@@ -21,6 +28,13 @@
       "label": "tika-parser"
     },
     {
+      "type": "index-logging",
+      "id": "fnine6sba4b8iwwmi",
+      "detailed": true,
+      "skip": true,
+      "label": "index-logging"
+    },
+    {
       "type": "exclusion-filter",
       "id": "l9nzskfncbgbep14i",
       "filters": [
@@ -37,16 +51,9 @@
           "skipDocument": true
         }
       ],
-      "skip": false,
+      "skip": true,
       "label": "DropListingPages",
       "condition": ""
-    },
-    {
-      "type": "index-logging",
-      "id": "fnine6sba4b8iwwmi",
-      "detailed": true,
-      "skip": false,
-      "label": "index-logging"
     },
     {
       "type": "field-mapping",
@@ -61,6 +68,15 @@
           "source": "/(.*?)lon(gitude)?$/",
           "target": "$1_lat_lon",
           "operation": "move"
+        },
+        {
+          "source": ".post-taglist a.post-tag",
+          "target": "stacktag_ss",
+          "operation": "move"
+        },
+        {
+          "source": "/twitter_app.*/",
+          "operation": "delete"
         }
       ],
       "reservedFieldsMappingAllowed": false,

@@ -24,7 +24,7 @@
 
   }
 
-  var STACK_HEADER = new RegExp("current")
+  //var STACK_HEADER = new RegExp("current community")
 
   function Controller(SnowplowService, PerDocumentService, DocumentDisplayHelperService, $log) {
     'ngInject';
@@ -44,7 +44,9 @@
 
     function processDocument(doc) {
       doc = DocumentDisplayHelperService.processDocument(doc);
-      doc["body"] = doc[field].replace(STACK_HEADER, "");
+      /*if (doc["body"]) {
+        doc["body"] = doc["body"].replace(STACK_HEADER, "");
+      }*/
       return doc;
     }
 

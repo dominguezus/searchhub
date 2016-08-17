@@ -32,6 +32,15 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
             "restrictToTreeIgnoredHostPrefixes": [
                 "www."
             ],
+            "f.excludeSelectors": [
+                "div.related",
+                ".topbar",
+                ".bottom-notice",
+                "#hot-network-questions",
+                "#footer"
+            ],
+            "f.selectorFields": [
+                ".post-taglist a.post-tag"],
             "dedupeSaveSignature": False,
             "crawlDBType": "in-memory",
             "f.discardLinkURLQueries": False,

@@ -34,6 +34,16 @@
       "name": "lucene-stack-overflow",
       "label": "Lucene Stack Overflow",
       "tag": "lucene"
+    },
+    {
+      "name": "hadoop-stack-overflow",
+      "label": "Hadoop Stack Overflow",
+      "tag": "hadoop"
+    },
+    {
+      "name": "spark-stack-overflow",
+      "label": "Apache Spark Stack Overflow",
+      "tag": "apache-spark"
     }
   ]
 }
