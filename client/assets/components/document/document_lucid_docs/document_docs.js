@@ -47,7 +47,12 @@
       //make sure we can display the info
       $log.info("Process Docs Doc:", doc);
       doc['id'] = $sce.trustAsHtml(doc['id']);
-      doc[field] = doc[field].replace(SUPPORT_HEADER, "");
+      if (doc["content"]) {
+        doc["content"] = doc["content"].replace(SUPPORT_HEADER, "");
+      }
+      if (doc["body"]) {
+        doc["body"] = doc["body"].replace(SUPPORT_HEADER, "");
+      }
 
       doc = DocumentDisplayHelperService.processDocument(doc);
       //console.log(doc.content.substring(0,250));
