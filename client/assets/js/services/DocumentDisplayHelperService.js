@@ -38,7 +38,7 @@
     }
 
     function trim(doc, field) {
-      if (doc[field]) {
+      if (doc[field] != null) {
         doc[field] = doc[field].replace(EXTRA_SPACES, "");
         doc[field] = doc[field].trim();
       }

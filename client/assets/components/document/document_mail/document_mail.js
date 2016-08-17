@@ -43,11 +43,11 @@
     function processDocument(doc) {
       //make sure we can display the info
       //$log.info(doc['subject']);
+      doc = DocumentDisplayHelperService.processDocument(doc);
       doc['body'] = $sce.trustAsHtml(doc['body']);
       doc['subject'] = $sce.trustAsHtml(doc['subject']);
       //$log.info(doc['subject']);
       doc['id'] = $sce.trustAsHtml(doc['id']);
-      doc = DocumentDisplayHelperService.processDocument(doc);
       return doc;
     }
   }
