@@ -40,7 +40,12 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
                 "#footer"
             ],
             "f.selectorFields": [
-                ".post-taglist a.post-tag"],
+                ".post-taglist a.post-tag", ".accepted-answer .answercell",
+                ".answercell",
+                ".postcell .post-text"],
+            "f.includeSelectors": [
+                "#mainbar"
+            ],
             "dedupeSaveSignature": False,
             "crawlDBType": "in-memory",
             "f.discardLinkURLQueries": False,

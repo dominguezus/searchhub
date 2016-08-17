@@ -28,34 +28,6 @@
       "label": "tika-parser"
     },
     {
-      "type": "index-logging",
-      "id": "fnine6sba4b8iwwmi",
-      "detailed": true,
-      "skip": true,
-      "label": "index-logging"
-    },
-    {
-      "type": "exclusion-filter",
-      "id": "l9nzskfncbgbep14i",
-      "filters": [
-        {
-          "sourceField": "resourceName",
-          "excludeValues": [
-            "questions/tagged"
-          ],
-          "caseSensitive": false,
-          "regexPattern": {
-            "pattern": ".*(questions/tagged).*",
-            "group": 1
-          },
-          "skipDocument": true
-        }
-      ],
-      "skip": true,
-      "label": "DropListingPages",
-      "condition": ""
-    },
-    {
       "type": "field-mapping",
       "id": "02401ce8-89a8-454a-ba3e-6b2d7696ca6a",
       "mappings": [
@@ -77,11 +49,33 @@
         {
           "source": "/twitter_app.*/",
           "operation": "delete"
+        },
+        {
+          "source": ".postcell .post-text",
+          "target": "question_txt",
+          "operation": "move"
+        },
+        {
+          "source": ".answercell",
+          "target": "answer_txt",
+          "operation": "move"
+        },
+        {
+          "source": ".accepted-answer .answercell",
+          "target": "accepted_answer_txt",
+          "operation": "move"
         }
       ],
       "reservedFieldsMappingAllowed": false,
       "skip": false,
       "label": "field-mapping"
+    },
+    {
+      "type": "index-logging",
+      "id": "fnine6sba4b8iwwmi",
+      "detailed": true,
+      "skip": true,
+      "label": "index-logging"
     },
     {
       "type": "solr-index",
