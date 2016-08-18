@@ -5,8 +5,8 @@
   "query_pipeline": "lucidfind-default",
   "stack_pipeline": "stack-overflow-default",
   "schedule": {
-    "repeatUnit": "DAY",
-    "interval": 1
+    "repeatUnit": "HOUR",
+    "interval": 4
   },
   "excludes": [
         ".*users.*",
@@ -19,10 +19,12 @@
         ".*documentation.*",
         ".*tags.*",
         ".*badges.*",
+       ".*answertab.*",
         ".*questions$"
       ],
   "includes": [
-        ".*questions/(\\d+|tagged)/.*"
+        ".*questions/\\d+/.*",
+        ".*questions/tagged/(solr|lucene|hadoop|.*spark.*)"
       ],
   "stacks": [
     {
