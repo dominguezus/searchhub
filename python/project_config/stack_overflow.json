@@ -19,7 +19,8 @@
         ".*documentation.*",
         ".*tags.*",
         ".*badges.*",
-       ".*answertab.*",
+        ".*answertab.*",
+        ".*noredirect.*",
         ".*questions$"
       ],
   "includes": [
