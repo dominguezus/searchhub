@@ -19,7 +19,8 @@
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 1
-      }
+      },
+      "excludes":[".*user/register.*", ".*user/login.*", ".*comment/\\d+", ".*/tags/.*"]
     }
 
   ]
