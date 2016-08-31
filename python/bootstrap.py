@@ -50,6 +50,7 @@ def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "content", type="text_en")
   backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
   backend.add_field(collection_id, "project_label", type="string", copyDests=["suggest"])
+  backend.add_field(collection_id, "source_type", type="string")
   backend.add_field(collection_id, "datasource_label", type="string")
   backend.add_field(collection_id, "body", type="text_en")
   backend.add_field(collection_id, "title", type="text_en", copyDests=["suggest"])

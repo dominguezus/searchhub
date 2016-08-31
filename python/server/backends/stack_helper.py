@@ -85,6 +85,7 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
                     {"source": "project", "target": project_name, "operation": "set"},
                     {"source": "project_label", "target": project_label, "operation": "set"},
                     {"source": "datasource_label", "target": project_label, "operation": "set"}, # we only have one crawler for SO
+                    {"source": "source_type", "target": "Stack Overflow", "operation": "set"},
                     {"source": "fetchedDate", "target": "publishedOnDate", "operation": "copy"},
                     {"source": "isBot", "target": "false", "operation": "set"},
                     {

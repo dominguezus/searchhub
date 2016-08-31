@@ -63,6 +63,7 @@ def create_config(project_name, project_label, pipeline, mailing_list):
           {"source": "project", "target": project_name, "operation": "set"},
           {"source": "project_label", "target": project_label, "operation": "set"},
           {"source": "datasource_label", "target": mailing_list["label"], "operation": "set"},
+          {"source": "source_type", "target": "Mail", "operation": "set"},
           {"source": "fetchedDate", "target": "publishedOnDate", "operation": "copy"},
           {
             "source": "charSet",

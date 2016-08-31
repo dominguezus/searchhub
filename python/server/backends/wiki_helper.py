@@ -62,6 +62,7 @@ def create_config(project_name, project_label, pipeline, wiki):
           {"source": "project", "target": project_name, "operation": "set"},
           {"source": "project_label", "target": project_label, "operation": "set"},
           {"source": "datasource_label", "target": wiki["label"], "operation": "set"},
+          {"source": "source_type", "target": "Wiki", "operation": "set"},
           {"source": "fetchedDate", "target": "publishedOnDate", "operation": "copy"},
           {"source": "isBot", "target": "false", "operation": "set"},
           {
